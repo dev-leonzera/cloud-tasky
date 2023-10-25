@@ -2,6 +2,7 @@
 <template>
     <AuthenticatedLayout>
         <!-- Title -->
+
         <Head title="Projects" />
 
         <template #header>
@@ -16,81 +17,39 @@
                         <div class="space-y-6">
                             <div>
                                 <InputLabel for="name" value="Name" />
-                                <TextInput
-                                    id="name"
-                                    ref="nameInput"
-                                    v-model="form.name"
-                                    type="text"
-                                    class="block w-full"
-                                    autocomplete="name-input"
-                                    disabled="true"
-                                />
+                                <TextInput id="name" ref="nameInput" v-model="form.name" type="text" class="block w-full"
+                                    autocomplete="name-input" disabled="true" />
                             </div>
 
                             <div>
                                 <InputLabel for="value" value="Value" />
-                                <TextInput
-                                    id="value"
-                                    ref="emailInput"
-                                    v-model="form.value"
-                                    type="number"
-                                    class="mt-1 block w-full"
-                                    autocomplete="email-input"
-                                    disabled="true"
-                                />
+                                <TextInput id="value" ref="emailInput" v-model="form.value" type="text"
+                                    class="mt-1 block w-full" autocomplete="email-input" disabled="true" />
                                 <InputError :message="form.errors.email" class="mt-2" />
                             </div>
-                            
+
                             <div>
                                 <InputLabel for="status" value="Project Status" />
-                                <TextInput
-                                    id="value"
-                                    ref="emailInput"
-                                    v-model="form.status"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    autocomplete="email-input"
-                                    disabled="true"
-                                />
+                                <TextInput id="value" ref="emailInput" v-model="form.status" type="text"
+                                    class="mt-1 block w-full" autocomplete="email-input" disabled="true" />
                                 <InputError :message="form.errors.email" class="mt-2" />
-                            </div>                            
+                            </div>
                             <div>
                                 <InputLabel for="status" value="Start Date" />
-                                <TextInput
-                                    id="value"
-                                    ref="emailInput"
-                                    v-model="form.start_date"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    autocomplete="email-input"
-                                    disabled="true"
-                                />
+                                <TextInput id="value" ref="emailInput" v-model="form.start_date" type="text"
+                                    class="mt-1 block w-full" autocomplete="email-input" disabled="true" />
                                 <InputError :message="form.errors.email" class="mt-2" />
                             </div>
                             <div>
                                 <InputLabel for="status" value="End Date" />
-                                <TextInput
-                                    id="value"
-                                    ref="emailInput"
-                                    v-model="form.end_date"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    autocomplete="email-input"
-                                    disabled="true"
-                                />
+                                <TextInput id="value" ref="emailInput" v-model="form.end_date" type="text"
+                                    class="mt-1 block w-full" autocomplete="email-input" disabled="true" />
                                 <InputError :message="form.errors.email" class="mt-2" />
                             </div>
                             <div>
                                 <InputLabel for="status" value="Creator" />
-                                <TextInput
-                                    id="value"
-                                    ref="emailInput"
-                                    v-model="form.creator"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    autocomplete="email-input"
-                                    disabled="true"
-                                />
+                                <TextInput id="value" ref="emailInput" v-model="form.creator" type="text"
+                                    class="mt-1 block w-full" autocomplete="email-input" disabled="true" />
                                 <InputError :message="form.errors.email" class="mt-2" />
                             </div>
 
@@ -127,17 +86,26 @@ export default {
     },
     data() {
         return {
-            form: useForm({                
+            form: useForm({
                 name: this.project.name,
-                value: this.project.value,
+                value: this.formatCurrency(this.project.value),
                 status: this.project.status,
                 start_date: new Date(this.project.start_date).toLocaleDateString(),
                 end_date: new Date(this.project.end_date).toLocaleDateString(),
-                creator: this.project.creator.name,            
+                creator: this.project.creator.name,
             })
         };
     },
     methods: {
+        formatCurrency(value) {
+            if (typeof value === 'number') {
+                return value.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                });
+            }
+            return value; // Caso o valor não seja um número, retorne sem formatação.
+        },
     }
 };
 </script>
