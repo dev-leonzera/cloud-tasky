@@ -20,6 +20,10 @@ class Project extends Model
         });
     }
 
+    public function creator(){
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
     public function getStatusAttribute()
     {
         return $this->attributes['status'] == 1 ? 'Active' : 'Inactive';

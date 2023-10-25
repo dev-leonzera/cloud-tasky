@@ -5,7 +5,7 @@
         <Head title="Projects" />
 
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">View Company</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">View Project</h2>
         </template>
 
         <div class="py-12">
@@ -16,7 +16,6 @@
                         <div class="space-y-6">
                             <div>
                                 <InputLabel for="name" value="Name" />
-
                                 <TextInput
                                     id="name"
                                     ref="nameInput"
@@ -29,24 +28,72 @@
                             </div>
 
                             <div>
-                                <InputLabel for="email" value="Email" />
-
+                                <InputLabel for="value" value="Value" />
                                 <TextInput
-                                    id="email"
+                                    id="value"
                                     ref="emailInput"
-                                    v-model="form.email"
+                                    v-model="form.value"
+                                    type="number"
+                                    class="mt-1 block w-full"
+                                    autocomplete="email-input"
+                                    disabled="true"
+                                />
+                                <InputError :message="form.errors.email" class="mt-2" />
+                            </div>
+                            
+                            <div>
+                                <InputLabel for="status" value="Project Status" />
+                                <TextInput
+                                    id="value"
+                                    ref="emailInput"
+                                    v-model="form.status"
                                     type="text"
                                     class="mt-1 block w-full"
                                     autocomplete="email-input"
                                     disabled="true"
                                 />
-
+                                <InputError :message="form.errors.email" class="mt-2" />
+                            </div>                            
+                            <div>
+                                <InputLabel for="status" value="Start Date" />
+                                <TextInput
+                                    id="value"
+                                    ref="emailInput"
+                                    v-model="form.start_date"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    autocomplete="email-input"
+                                    disabled="true"
+                                />
+                                <InputError :message="form.errors.email" class="mt-2" />
+                            </div>
+                            <div>
+                                <InputLabel for="status" value="End Date" />
+                                <TextInput
+                                    id="value"
+                                    ref="emailInput"
+                                    v-model="form.end_date"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    autocomplete="email-input"
+                                    disabled="true"
+                                />
+                                <InputError :message="form.errors.email" class="mt-2" />
+                            </div>
+                            <div>
+                                <InputLabel for="status" value="Creator" />
+                                <TextInput
+                                    id="value"
+                                    ref="emailInput"
+                                    v-model="form.creator"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    autocomplete="email-input"
+                                    disabled="true"
+                                />
                                 <InputError :message="form.errors.email" class="mt-2" />
                             </div>
 
-                            <div>
-                                <img v-if="form.logo" :src="form.logo" alt="Company Logo" width="100" height="100" class="m-auto" />
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -76,14 +123,17 @@ export default {
         TextInput,
     },
     props: {
-        company: Object
+        project: Object
     },
     data() {
         return {
-            form: useForm({
-                name: this.company.name,
-                email: this.company.email,
-                logo: this.company.logo,
+            form: useForm({                
+                name: this.project.name,
+                value: this.project.value,
+                status: this.project.status,
+                start_date: new Date(this.project.start_date).toLocaleDateString(),
+                end_date: new Date(this.project.end_date).toLocaleDateString(),
+                creator: this.project.creator.name,            
             })
         };
     },

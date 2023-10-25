@@ -20,14 +20,16 @@
                             <th class="p-4 text-left">ID</th>
                             <th class="p-4 text-center">Name</th>
                             <th class="p-4 text-center">Status</th>
+                            <th class="p-4">Creator</th>
                             <th class="p-4 text-center">Start Date</th>
                             <th class="p-4">End Date</th>
                             <th class="p-4">Actions</th>
                         </tr>
-                        <tr v-for="projeto in projetos" :key="projeto.id">
+                        <tr v-for="projeto in projetos.data" :key="projeto.id">
                             <td class="px-4 py-2">{{ projeto.id }}</td>
                             <td class="px-4 py-2 text-center">{{ projeto.name }}</td>
                             <td class="px-4 py-2 text-center">{{ projeto.status }}</td>
+                            <td class="px-4 py-2 text-center">{{ projeto.creator }}</td>
                             <td class="px-4 py-2 text-center">{{ new Date(projeto.start_date).toLocaleDateString()}}</td>
                             <td class="px-4 py-2 text-center">{{ new Date(projeto.end_date).toLocaleDateString()}}</td>
                             <td class="text-white px-4 py-2 space-x-4 text-center">
@@ -58,6 +60,17 @@ import { Head, Link } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 
+const loadPage = (pageUrl) => {
+  if (pageUrl) {
+    // Use o URL da página anterior ou seguinte para navegar
+    axios.get(pageUrl).then(response => {
+      // Atualize os dados do projeto e informações de paginação
+      $page.projetos = response.data;      
+    }).catch(error => {
+      console.error('Erro ao buscar dados:', error);
+    });
+  }
+};
 export default {
     components: {
         AuthenticatedLayout,

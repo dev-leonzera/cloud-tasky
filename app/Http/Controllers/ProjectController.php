@@ -3,18 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\ProjectRepository;
 use Inertia\Inertia;
 
 
 class ProjectController extends Controller
 {
-    public function index(){
-        $projetos = Project::all();        
 
-        return Inertia::render('Projects/Index', compact('projetos'));
+    private $projectRepository;
+
+    public function __construct(ProjectRepository $projectRepository){
+        $this->projectRepository = $projectRepository;
+    }
+    public function index(){
+        $projetos = ProjectResource::collection($this->projectRepository->getAllProjects());        
+        return Inertia::render('Projects/Index', [
+            'projetos' => $projetos,
+        ]);
     }
 
     public function create(){
@@ -22,30 +29,36 @@ class ProjectController extends Controller
     }
 
     public function store(StoreProjectRequest $request){
-        
-        Project::create($request->validated());
 
-        return redirect()->route('projects.index')->with('success', 'Project created successfully!');
+        try {
+            $this->projectRepository->storeProject($request->validated());
+            return redirect()->route('projects.index')->with('success', 'Project created successfully!');
+        } catch (\Throwable $th) {
+            throw $th->getMessage();
+        }
     }
 
-    public function show(Project $project){
+    public function show($id){
+        $project = $this->projectRepository->getProject($id);
         return Inertia::render('Projects/Show', compact('project'));
     }
 
     public function edit($id){
-        $project = Project::find($id);
+        $project = $this->projectRepository->getProject($id);
         return Inertia::render('Projects/Edit', compact('project'));
     }
 
-    public function update(Request $request, $id){
-        $project = Project::find($id);
-        $project->update($request->all());
-        return redirect()->route('projects.index')->with('success', 'Project updated successfully!');
+    public function update(StoreProjectRequest $request, $id){
+        try {
+            $project = $this->projectRepository->updateProject($id, $request->validated());        
+            return redirect()->route('projects.index')->with('success', 'Project updated successfully!');
+        } catch (\Throwable $th) {
+            throw $th->getMessage();
+        }
     }
 
     public function destroy($id){
-        $project = Project::find($id);
-        $project->delete();
+        $this->projectRepository->deleteProject($id);
         return redirect()->route('projects.index')->with('success', 'Project deleted successfully!');
     }
 }
