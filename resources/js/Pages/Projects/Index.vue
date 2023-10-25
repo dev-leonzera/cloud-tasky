@@ -4,13 +4,13 @@
         <Head title="Projects" />
 
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Projetos</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Projects</h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-end mb-6">
-                    <Link :href="route('projetos.create')">
+                    <Link :href="route('projects.create')">
                         <PrimaryButton>Create Project</PrimaryButton>
                     </Link>
                 </div>
@@ -31,10 +31,10 @@
                             <td class="px-4 py-2 text-center">{{ new Date(projeto.start_date).toLocaleDateString()}}</td>
                             <td class="px-4 py-2 text-center">{{ new Date(projeto.end_date).toLocaleDateString()}}</td>
                             <td class="text-white px-4 py-2 space-x-4 text-center">
-                                <Link :href="route('projetos.show', projeto.id)">
+                                <Link :href="route('projects.show', projeto.id)">
                                     <PrimaryButton>Show</PrimaryButton>
                                 </Link>
-                                <Link :href="route('projetos.edit', projeto.id)">
+                                <Link :href="route('projects.edit', projeto.id)">
                                     <PrimaryButton>Edit</PrimaryButton>
                                 </Link>
                                 <PrimaryButton @click="deleteProject(projeto)">Delete</PrimaryButton>
@@ -78,7 +78,7 @@ export default {
     },
     methods: {
         deleteProject(item){
-            this.form.delete(route('projetos.destroy', item.id), {
+            this.form.delete(route('projects.destroy', item.id), {
                 preserveScroll: true,
                 onSuccess: () => {},
                 onError: () => {},

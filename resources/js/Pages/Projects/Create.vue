@@ -108,7 +108,7 @@ export default {
     },
     methods: {
         submit() {
-            this.form.post(route('projetos.store'), {
+            this.form.post(route('projects.store'), {
                 preserveScroll: true,
                 onSuccess: () => this.form.reset(),
                 onError: () => {
