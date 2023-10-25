@@ -114,7 +114,7 @@ export default {
     },
     methods: {
         submit() {
-            this.form.post(route("projetos.update", this.project.id), this.form, {
+            this.form.post(route("projects.update", this.project.id), this.form, {
                 preserveScroll: true,
                 forceFormData: true,
                 onSuccess: () => this.form.reset(),

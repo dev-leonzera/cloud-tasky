@@ -6,8 +6,9 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
+use Error;
 use Inertia\Inertia;
-
+use Throwable;
 
 class ProjectController extends Controller
 {
@@ -33,8 +34,8 @@ class ProjectController extends Controller
         try {
             $this->projectRepository->storeProject($request->validated());
             return redirect()->route('projects.index')->with('success', 'Project created successfully!');
-        } catch (\Throwable $th) {
-            throw $th->getMessage();
+        } catch (\Exception $e) {
+            throw $e->getMessage();
         }
     }
 
@@ -52,8 +53,8 @@ class ProjectController extends Controller
         try {
             $project = $this->projectRepository->updateProject($id, $request->validated());        
             return redirect()->route('projects.index')->with('success', 'Project updated successfully!');
-        } catch (\Throwable $th) {
-            throw $th->getMessage();
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
 

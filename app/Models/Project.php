@@ -18,6 +18,14 @@ class Project extends Model
         static::creating(function ($project){
             $project->creator_id = Auth::user()->id;
         });
+
+        static::updating(function ($project){
+            if($project->status == 'Active'){
+                $project->status = 1;
+            } else {
+                $project->status = 0;
+            }
+        });
     }
 
     public function creator(){
